@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   IconButton,
   Heading,
@@ -11,27 +11,34 @@ import {
   Link,
   Button,
   PseudoBox,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogCloseButton,
-  useDisclosure,
 } from "@chakra-ui/core";
+import Alert from "../../components/Alert";
 import { AiFillStop } from "react-icons/ai";
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLinks, upvoteLink, downVoteLink, removeLink } from "./linkSlice";
+import {
+  selectPages,
+  goPrevPage,
+  goNextPage,
+  goClickedPage,
+} from "../pagination/paginationSlice";
 
 const LinksList = ({ props }) => {
   const linkList = useSelector(selectLinks);
-  console.log("linkList: ", linkList);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
-  const cancelRef = useRef();
+  const pagination = useSelector(selectPages);
+  const sortedList = [...linkList]
+    .sort((a, b) => (a.points < b.points ? 1 : -1))
+    .slice((pagination.currentPage - 1) * 5, pagination.currentPage * 5);
+
+  const [isOpen, setIsOpen] = useState({});
   const dispatch = useDispatch();
+  const openAlert = (id) => {
+    setIsOpen({ ...isOpen, [id]: true });
+  };
+  const closeAlert = (id) => {
+    setIsOpen({ ...isOpen, [id]: false });
+  };
   return (
     <>
       <Stack
@@ -45,7 +52,6 @@ const LinksList = ({ props }) => {
         borderRadius="md"
         borderColor="primary.300"
       >
-        <Button onClick={() => dispatch(removeLink(3))}>REMOVE</Button>
         <RouterLink to={`/add-link`} mr="5">
           {" "}
           <IconButton
@@ -69,134 +75,128 @@ const LinksList = ({ props }) => {
           <option value="option2">Most Voted(A→Z)</option>
         </Select>
       </Box>
-      {linkList?.map(({ id, points, title, url }, index) => {
+      {sortedList?.map(({ id, points, title, url }) => {
         return (
-          <PseudoBox
-            position="relative"
-            d="flex"
-            textAlign="center"
-            justifyContent="start"
-            pt={1}
-            pr={2}
-            mt={3}
-            _hover={{ bg: "primary.50", cursor: "pointer", borderRadius: "md" }}
-          >
-            <Box
-              bg="primary.100"
-              p={4}
-              mb={3}
-              border="1px"
-              borderColor="primary.200"
-              borderRadius="md"
+          <>
+            <PseudoBox
+              key={`${id}-${title}`}
+              position="relative"
+              d="flex"
+              textAlign="center"
+              justifyContent="start"
+              pt={1}
+              pr={2}
+              mt={3}
+              _hover={{
+                bg: "primary.50",
+                cursor: "pointer",
+                borderRadius: "md",
+              }}
             >
-              <Heading
-                fontWeight="bolder"
-                fontSize="2.5rem"
-                lineHeight="1.75rem"
+              <Box
+                bg="primary.100"
+                p={4}
+                mb={3}
+                border="1px"
+                borderColor="primary.200"
+                borderRadius="md"
               >
-                {points}
-              </Heading>
-              <Text>POINTS</Text>
-            </Box>
-
-            <Stack ml={4} pl={1}>
-              <Stack align="start" justify="center">
-                <Flex justifyContent="space-between" w="100%" mb="0">
-                  <Text fontWeight="bold">{title}</Text>
-                </Flex>
-
-                <Link _hover={{ textDecoration: "none" }} color="parimary.100">
-                  ({url})
-                </Link>
-              </Stack>
-              <Stack direction="row" justfiy="space-around">
-                <Button
-                  leftIcon="arrow-up"
-                  variant="ghost"
-                  pl={1}
-                  onClick={() => dispatch(upvoteLink(id))}
+                <Heading
+                  fontWeight="bolder"
+                  fontSize="2.5rem"
+                  lineHeight="1.75rem"
                 >
-                  Up Vote
-                </Button>
-                <Button
-                  leftIcon="arrow-down"
-                  variant="ghost"
-                  pl={1}
-                  onClick={() => dispatch(downVoteLink(id))}
-                >
-                  Down Vote
-                </Button>
-              </Stack>
-            </Stack>
-            <Box
-              onClick={onOpen}
-              as={AiFillStop}
-              position="absolute"
-              size="32px"
-              top="-12px"
-              right="-10px"
-              color="red.600"
-            />
-            <AlertDialog
-              isOpen={isOpen}
-              leastDestructiveRef={cancelRef}
-              onClose={onClose}
-            >
-              <AlertDialogOverlay />
-              <AlertDialogContent>
-                <AlertDialogHeader
-                  fontSize="lg"
-                  fontWeight="bold"
-                  bg="black"
-                  color="white"
-                >
-                  Remove Link
-                </AlertDialogHeader>
-                <AlertDialogCloseButton fontWeight="800" color="white" />
-                <AlertDialogBody>
-                  Are you sure? You can't undo this action afterwards.
-                </AlertDialogBody>
+                  {points}
+                </Heading>
+                <Text>POINTS</Text>
+              </Box>
 
-                <AlertDialogFooter justifyContent="space-around">
+              <Stack ml={4} pl={1}>
+                <Stack align="start" justify="center">
+                  <Flex justifyContent="space-between" w="100%" mb="0">
+                    <Text fontWeight="bold">{title}</Text>
+                  </Flex>
+
+                  <Link
+                    _hover={{ textDecoration: "none" }}
+                    color="parimary.100"
+                  >
+                    ({url})
+                  </Link>
+                </Stack>
+                <Stack direction="row" justfiy="space-around">
                   <Button
-                    minW="8rem"
-                    height="2.5rem"
-                    fontWeight="800"
-                    bg="black"
-                    color="white"
-                    _hover={{ bg: "black" }}
-                    _active={{ bg: "black" }}
-                    variant="solid"
-                    borderRadius="50px"
+                    leftIcon="arrow-up"
+                    variant="ghost"
+                    pl={1}
                     onClick={() => {
-                      dispatch(removeLink(id));
-                      onClose();
+                      dispatch(upvoteLink(id));
                     }}
-                    ml={3}
                   >
-                    OK
+                    Up Vote
                   </Button>
                   <Button
-                    minW="8rem"
-                    height="2.5rem"
-                    fontWeight="800"
-                    bg="black"
-                    color="white"
-                    _hover={{ bg: "black" }}
-                    _active={{ bg: "black" }}
-                    variant="solid"
-                    borderRadius="50px"
-                    ref={cancelRef}
-                    onClick={onClose}
+                    leftIcon="arrow-down"
+                    variant="ghost"
+                    pl={1}
+                    onClick={() => dispatch(downVoteLink(id))}
                   >
-                    Cancel
+                    Down Vote
                   </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </PseudoBox>
+                </Stack>
+              </Stack>
+              <Box
+                onClick={() => openAlert(id)}
+                as={AiFillStop}
+                position="absolute"
+                size="32px"
+                top="-12px"
+                right="-10px"
+                color="red.600"
+              />
+              <Alert
+                openAlert={() => openAlert(id)}
+                isOpen={isOpen[id]}
+                closeAlert={() => closeAlert(id)}
+                removeLink={() => dispatch(removeLink(id))}
+              />
+            </PseudoBox>
+          </>
         );
       })}
+      {linkList.length > 5 && (
+        <Flex mt={5} justifyContent="center">
+          <IconButton
+            aria-label="Add new post"
+            icon="chevron-left"
+            variantColor="black"
+            variant="ghost"
+            _hover={{ fontSize: "lg" }}
+            onClick={() => dispatch(goPrevPage())}
+          />
+          {[...Array(Math.ceil(linkList.length / 5))].map((_, index) => {
+            return (
+              <Button
+                variantColor="black"
+                variant={
+                  pagination.currentPage === index + 1 ? "outline" : "ghost"
+                }
+                onClick={() => dispatch(goClickedPage(index + 1))}
+              >
+                {index + 1}
+              </Button>
+            );
+          })}
+          <IconButton
+            aria-label="Add new post"
+            icon="chevron-right"
+            variantColor="black"
+            _hover={{ fontSize: "lg" }}
+            variant="ghost"
+            onClick={() => dispatch(goNextPage())}
+          />
+        </Flex>
+      )}
     </>
   );
 };

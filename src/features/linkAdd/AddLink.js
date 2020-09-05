@@ -41,10 +41,10 @@ const AddLink = () => {
       points: 0,
       title,
       url,
+      date: new Date(),
     };
     dispatch(addLink(data));
   };
-  console.log("userInput: ", userInput);
   return (
     <>
       <RouterLink to={"/"}>
