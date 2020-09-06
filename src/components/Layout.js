@@ -1,10 +1,14 @@
 import React from "react";
 import { Flex } from "@chakra-ui/core";
+import Header from "./Header";
 
 const Layout = ({ children }) => (
-  <Flex direction="column" maxW={{ lg: "40%" }} mx="auto" mt="5%" p={4}>
-    {children}
-  </Flex>
+  <>
+    <Header />
+    <Flex direction="column" maxW={{ lg: "40%" }} mx="auto" mt="5%" p={4}>
+      {children}
+    </Flex>
+  </>
 );
 
 export default Layout;

@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   IconButton,
   Heading,
   Stack,
   Flex,
-  Divider,
   Box,
   Select,
   Text,
@@ -14,9 +13,14 @@ import {
 } from "@chakra-ui/core";
 import Alert from "../../components/Alert";
 import { AiFillStop } from "react-icons/ai";
-import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectLinks, upvoteLink, downVoteLink, removeLink } from "./linkSlice";
+import {
+  selectLinks,
+  upvoteLink,
+  downVoteLink,
+  removeLink,
+  sortByChoice,
+} from "./linkSlice";
 import {
   selectPages,
   goPrevPage,
@@ -24,12 +28,15 @@ import {
   goClickedPage,
 } from "../pagination/paginationSlice";
 
+import { sortLinks, paginateContent } from "../../util/helpers";
+
 const LinksList = ({ props }) => {
   const linkList = useSelector(selectLinks);
   const pagination = useSelector(selectPages);
-  const sortedList = [...linkList]
-    .sort((a, b) => (a.points < b.points ? 1 : -1))
-    .slice((pagination.currentPage - 1) * 5, pagination.currentPage * 5);
+  const sortedList = paginateContent(
+    sortLinks(linkList),
+    pagination.currentPage
+  );
 
   const [isOpen, setIsOpen] = useState({});
   const dispatch = useDispatch();
@@ -41,45 +48,26 @@ const LinksList = ({ props }) => {
   };
   return (
     <>
-      <Stack
-        isInline
-        spacing={10}
-        align="center"
-        justifyContent="space-around"
-        bg="primary.50"
-        py={3}
-        border="1px"
-        borderRadius="md"
-        borderColor="primary.300"
-      >
-        <RouterLink to={`/add-link`} mr="5">
-          {" "}
-          <IconButton
-            aria-label="Add new post"
-            icon="add"
-            height="5rem"
-            minW="5rem"
-            border="1px"
-            bg="primary.50"
-            borderColor="primary.100"
-          />
-        </RouterLink>
+      {/* <SubmissionBox /> */}
 
-        <Heading as="h3">SUBMIT A LINK</Heading>
-      </Stack>
-
-      <Divider borderColor="red.200" mx="-2%" />
-      <Box maxW="50%">
-        <Select placeholder="Order by" icon="triangle-down">
-          <option value="option1">Most Voted(Z→A)</option>
-          <option value="option2">Most Voted(A→Z)</option>
+      {/*  <Divider borderColor="red.200" mx="-2%" /> */}
+      {/* <Box maxW="50%">
+        <Select
+          placeholder="Order by"
+          icon="triangle-down"
+          onChange={(event) =>
+            dispatch(sortByChoice(event.target.value || "createdDate"))
+          }
+        >
+          <option value="mostVoted">Most Voted(Z→A)</option>
+          <option value="lessVoted">Less Voted(A→Z)</option>
         </Select>
-      </Box>
-      {sortedList?.map(({ id, points, title, url }) => {
+      </Box> */}
+      {/* {sortedList?.map(({ id, points, title, url }) => {
         return (
           <>
             <PseudoBox
-              key={`${id}-${title}`}
+              key={id}
               position="relative"
               d="flex"
               textAlign="center"
@@ -163,8 +151,8 @@ const LinksList = ({ props }) => {
             </PseudoBox>
           </>
         );
-      })}
-      {linkList.length > 5 && (
+      })} */}
+      {linkList?.links?.length > 5 && (
         <Flex mt={5} justifyContent="center">
           <IconButton
             aria-label="Add new post"
@@ -174,7 +162,7 @@ const LinksList = ({ props }) => {
             _hover={{ fontSize: "lg" }}
             onClick={() => dispatch(goPrevPage())}
           />
-          {[...Array(Math.ceil(linkList.length / 5))].map((_, index) => {
+          {[...Array(Math.ceil(linkList.links?.length / 5))].map((_, index) => {
             return (
               <Button
                 variantColor="black"

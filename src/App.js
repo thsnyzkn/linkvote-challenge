@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 import customTheme from "./customTheme";
 
-import LinksList from "./features/linkList/LinkList";
-import AddLink from "./features/linkAdd/AddLink";
+import LinkVote from "./pages/LinkVote.page";
+import LinkAdd from "./pages/LinkAdd.page";
 import Layout from "./components/Layout";
 
 import "./App.css";
@@ -18,8 +18,8 @@ function App() {
         <div>
           <Router>
             <Switch>
-              <Route exact path="/" children={<LinksList />} />
-              <Route path="/add-link" children={<AddLink />} />
+              <Route exact path="/" children={<LinkVote />} />
+              <Route path="/add-link" children={<LinkAdd />} />
             </Switch>
           </Router>
         </div>

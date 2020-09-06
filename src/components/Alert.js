@@ -8,9 +8,12 @@ import {
   AlertDialogOverlay,
   AlertDialogCloseButton,
   Button,
+  Text,
+  Box,
+  Heading,
 } from "@chakra-ui/core";
 
-const Alert = ({ openAlert, closeAlert, isOpen, removeLink }) => {
+const Alert = ({ openAlert, closeAlert, isOpen, removeLink, title }) => {
   const cancelRef = useRef();
   return (
     <AlertDialog
@@ -30,7 +33,13 @@ const Alert = ({ openAlert, closeAlert, isOpen, removeLink }) => {
         </AlertDialogHeader>
         <AlertDialogCloseButton fontWeight="800" color="white" />
         <AlertDialogBody>
-          Are you sure? You can't undo this action afterwards
+          <Box textAlign="center">
+            {" "}
+            <Heading fontSize="lg" color="gray.500">
+              Do you want to remove:
+            </Heading>{" "}
+            <Text fontWeight="bold" fontSize="xl">{title.toUpperCase()}</Text>
+          </Box>
         </AlertDialogBody>
 
         <AlertDialogFooter justifyContent="space-around">

@@ -16,7 +16,8 @@
     "react-hook-form": "^6.7.2",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.3"
+    "react-scripts": "3.4.3",
+    "uuid": "^8.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -38,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.13.1"
   }
 }

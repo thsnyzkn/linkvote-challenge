@@ -4,18 +4,19 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Link,
+  Text,
+  IconButton,
+  Button,
   Icon,
   FormControl,
   FormLabel,
-  Button,
-  useToast,
   Input,
 } from "@chakra-ui/core";
 import { useDispatch } from "react-redux";
-import { addLink } from "../linkList/linkSlice";
+import { addLink } from "../features/linkList/linkSlice";
+import AddButton from "../components/AddButton";
 
 const AddLink = () => {
-  const toast = useToast();
   const dispatch = useDispatch();
 
   const [userInput, setUserInput] = useReducer(
@@ -48,14 +49,20 @@ const AddLink = () => {
     <>
       <RouterLink to={"/"}>
         <Box mb={4}>
-          {" "}
-          <Icon name="arrow-back" mr={2} />
-          <Link _hover={{ textDecoration: "none" }}>Return to List</Link>
+          <Button
+            leftIcon="arrow-back"
+            varian="ghost"
+            bg="white"
+            color="black"
+            _hover={{ bg: "white", active: "white" }}
+          >
+            Return to List
+          </Button>
         </Box>
       </RouterLink>
       <form onSubmit={handleSubmit}>
         {" "}
-        <FormControl d="flex" flexDirection="column">
+        <FormControl d="flex" flexDirection="column" px={3}>
           <Box mb={5}>
             <FormLabel htmlFor="title">Link Name:</FormLabel>
             <Input
@@ -80,45 +87,7 @@ const AddLink = () => {
               onChange={handleChange}
             />
           </Box>
-          <Button
-            type="submit"
-            alignSelf="flex-end"
-            minW="8rem"
-            height="2.5rem"
-            fontWeight="800"
-            bg="black"
-            color="white"
-            _hover={{ bg: "black" }}
-            _active={{ bg: "black" }}
-            variant="solid"
-            borderRadius="50px"
-            onClick={() =>
-              toast({
-                title: "Account created.",
-                description: "We've created your account for you.",
-                status: "success",
-                duration: 1500,
-                position: "top",
-                render: () => (
-                  <Box
-                    mt={13}
-                    color="green.500"
-                    px={30}
-                    py={5}
-                    bg="green.100"
-                    border="1px"
-                    w="100%"
-                    borderColor="green.500"
-                    borderRadius="md"
-                  >
-                    {userInput.title.toUpperCase()} added.
-                  </Box>
-                ),
-              })
-            }
-          >
-            ADD
-          </Button>
+          <AddButton title={userInput.title} />
         </FormControl>
       </form>
     </>

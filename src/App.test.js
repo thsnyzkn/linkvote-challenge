@@ -1,9 +1,15 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render } from "./custom-render";
+import { Provider } from "react-redux";
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import store from "./app/store";
+import App from "./App";
+
+test("renders application name", () => {
+  const { getByText } = render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+  expect(getByText(/LinkVote/i)).toBeInTheDocument();
 });
