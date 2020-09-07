@@ -1,15 +1,15 @@
-1. To install the necessary packages
+1. To install the necessary packages: yarn install
 
--yarn install
 
-2.To start the project
 
--yarn start
+2.To start the project: yarn start
 
-3. To run the tests
 
--yarn test
 
-4.Demo Link:
+3. To run the tests: yarn test
 
--[https://agitated-hermann-5b588b.netlify.app/]
+
+
+4.Demo Link:[https://agitated-hermann-5b588b.netlify.app/]
+
+
