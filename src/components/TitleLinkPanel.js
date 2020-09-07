@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Stack, Flex, Link, Text } from "@chakra-ui/core";
 
 const TitleLinkPanel = ({ title, url }) => (
@@ -11,5 +12,9 @@ const TitleLinkPanel = ({ title, url }) => (
     </Link>
   </Stack>
 );
+TitleLinkPanel.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
 
 export default TitleLinkPanel;

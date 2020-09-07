@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Box } from "@chakra-ui/core";
 import { AiFillStop } from "react-icons/ai";
 
@@ -13,5 +14,10 @@ const DeleteButton = ({ openAlert }) => (
     color="red.600"
   />
 );
+
+DeleteButton.propTypes = {
+  openAlert: PropTypes.func.isRequired,
+};
+DeleteButton.defaultProps = {};
 
 export default DeleteButton;

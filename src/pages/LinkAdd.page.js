@@ -78,6 +78,7 @@ const AddLink = () => {
             />
           </Box>
           <SubmitButton
+            aria-label="Add Button for New Link Entry"
             title={userInput.title}
             isFilled={userInput.url !== "" && userInput.title !== ""}
           />

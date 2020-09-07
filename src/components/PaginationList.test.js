@@ -8,7 +8,7 @@ import {
   goNextPage,
   goClickedPage,
 } from "../store/pagination/paginationSlice";
-test("can render with redux with defaults", () => {
+test("button Clicked", () => {
   render(
     <PaginationList
       listOfPages={[
@@ -77,12 +77,14 @@ test("can render with redux with defaults", () => {
           updatedDate: "2020-09-06T15:33:43.536Z",
         },
       ]}
-      currentPage={1}
+      currentPage={2}
       goPrevPage={goPrevPage}
       goClickedPage={goClickedPage}
       goNextPage={goNextPage}
     />
   );
-  /*   fireEvent.click(screen.getByAllLabelText("Change pagination index")); */
-  /* expect(screen.getByTestId("page-value").toEqual(2)); */
+  fireEvent.click(screen.getByLabelText(/Next paginated List/));
+  expect(
+    screen.getByLabelText(/Next paginated List/).closest("button")
+  ).toBeDisabled();
 });

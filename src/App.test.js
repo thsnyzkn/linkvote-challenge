@@ -11,5 +11,5 @@ test("renders application name", () => {
       <App />
     </Provider>
   );
-  expect(getByText(/LinkVote/i)).toBeInTheDocument();
+  expect(getByText(/Challenge/i)).toBeInTheDocument();
 });

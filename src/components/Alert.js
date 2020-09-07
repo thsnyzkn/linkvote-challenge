@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import PropTypes from "prop-types";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -74,5 +75,11 @@ const Alert = ({ closeAlert, isOpen, removeLink, title }) => {
     </AlertDialog>
   );
 };
-
+Alert.propTypes = {
+  closeAlert: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool,
+  removeLink: PropTypes.func.isRequired,
+  title: PropTypes.string,
+};
+Alert.defaultProps = { title: "", isOpen: false };
 export default Alert;
