@@ -5,7 +5,7 @@ import Header from "./Header";
 const Layout = ({ children }) => (
   <>
     <Header />
-    <Flex direction="column" maxW={{ lg: "40%" }} mx="auto" mt="5%" p={4}>
+    <Flex direction="column" maxW={{ lg: "40%" }} mx="auto" p={4}>
       {children}
     </Flex>
   </>

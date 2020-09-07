@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Flex, Button, IconButton } from "@chakra-ui/core";
 
 const PaginationList = ({
-  sortedList,
+  listOfPages,
   currentPage,
   goPrevPage,
   goClickedPage,
@@ -12,36 +12,38 @@ const PaginationList = ({
   const dispatch = useDispatch();
   return (
     <>
-      {sortedList.length > 5 ? (
+      {listOfPages?.length > 5 ? (
         <Flex mt={5} justifyContent="center">
           <IconButton
-            aria-label="Add new post"
+            aria-label="Previous paginated List"
             icon="chevron-left"
-            variantColor="black"
+            variantColor="gray.900"
             variant="ghost"
             _hover={{ fontSize: "lg" }}
             onClick={() => dispatch(goPrevPage())}
             disabled={currentPage === 1}
           />
-          {[...Array(Math.ceil(sortedList?.length / 5))].map((_, index) => {
+          {[...Array(Math.ceil(listOfPages?.length / 5))].map((_, index) => {
             return (
               <Button
-                variantColor="black"
+                key={index}
+                variantColor="gray.900"
                 variant={currentPage === index + 1 ? "outline" : "ghost"}
                 onClick={() => dispatch(goClickedPage(index + 1))}
+                aria-label="Change pagination index"
               >
                 {index + 1}
               </Button>
             );
           })}
           <IconButton
-            aria-label="Add new post"
+            aria-label="Next paginated List"
             icon="chevron-right"
-            variantColor="black"
+            variantColor="gray.900"
             _hover={{ fontSize: "lg" }}
             variant="ghost"
             onClick={() => dispatch(goNextPage())}
-            disabled={currentPage === Math.ceil(sortedList?.length / 5)}
+            disabled={currentPage === Math.ceil(listOfPages?.length / 5)}
           />
         </Flex>
       ) : null}

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Stack, Button } from "@chakra-ui/core";
 
 const VoteButtons = ({ upvoteLink, downVoteLink }) => {
@@ -18,5 +19,10 @@ const VoteButtons = ({ upvoteLink, downVoteLink }) => {
     </Stack>
   );
 };
-
+VoteButtons.propTypes = {
+  /**Redux action that increments the point value by 1 that must be provided. */
+  upvoteLink: PropTypes.func.isRequired,
+  /**Redux action that decrements the point value by 1 that must be provided. */
+  downVoteLink: PropTypes.func.isRequired,
+};
 export default VoteButtons;

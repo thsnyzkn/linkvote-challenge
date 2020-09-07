@@ -1,20 +1,10 @@
 import React, { useReducer } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-import {
-  Box,
-  Link,
-  Text,
-  IconButton,
-  Button,
-  Icon,
-  FormControl,
-  FormLabel,
-  Input,
-} from "@chakra-ui/core";
+import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/core";
 import { useDispatch } from "react-redux";
-import { addLink } from "../features/linkList/linkSlice";
-import AddButton from "../components/AddButton";
+import { addLink } from "../store/linkList/linkSlice";
+import SubmitButton from "../components/SubmitButton";
 
 const AddLink = () => {
   const dispatch = useDispatch();
@@ -62,7 +52,7 @@ const AddLink = () => {
       </RouterLink>
       <form onSubmit={handleSubmit}>
         {" "}
-        <FormControl d="flex" flexDirection="column" px={3}>
+        <FormControl d="flex" flexDirection="column" px={3} isRequired>
           <Box mb={5}>
             <FormLabel htmlFor="title">Link Name:</FormLabel>
             <Input
@@ -87,7 +77,10 @@ const AddLink = () => {
               onChange={handleChange}
             />
           </Box>
-          <AddButton title={userInput.title} />
+          <SubmitButton
+            title={userInput.title}
+            isFilled={userInput.url !== "" && userInput.title !== ""}
+          />
         </FormControl>
       </form>
     </>

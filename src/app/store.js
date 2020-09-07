@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import linkReducer from "../features/linkList/linkSlice";
-import paginationSliceReducer from "../features/pagination/paginationSlice";
+import linkReducer from "../store/linkList/linkSlice";
+import paginationSliceReducer from "../store/pagination/paginationSlice";
 import { loadState } from "./localStorage";
 
 const preloadedState = loadState();

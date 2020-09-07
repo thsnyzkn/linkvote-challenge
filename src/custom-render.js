@@ -1,15 +1,10 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
 import { ThemeProvider, CSSReset } from "@chakra-ui/core";
 
 import { Provider } from "react-redux";
 import store from "./app/store";
-import {
-  reducer,
-  initialState as reducerInitialState,
-} from "./features/linkList/linkSlice";
 
 const Wrapper = ({ children }) => {
   return (

@@ -7,18 +7,22 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogCloseButton,
-  Button,
   Text,
   Box,
   Heading,
+  useToast,
 } from "@chakra-ui/core";
+import AlertButton from "./AlertButton";
+import Toast from "./Toast";
 
-const Alert = ({ openAlert, closeAlert, isOpen, removeLink, title }) => {
+const Alert = ({ closeAlert, isOpen, removeLink, title }) => {
   const cancelRef = useRef();
+  const toast = useToast();
   return (
     <AlertDialog
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
+      returnFocusOnClose={false}
       onClose={closeAlert}
     >
       <AlertDialogOverlay />
@@ -38,44 +42,33 @@ const Alert = ({ openAlert, closeAlert, isOpen, removeLink, title }) => {
             <Heading fontSize="lg" color="gray.500">
               Do you want to remove:
             </Heading>{" "}
-            <Text fontWeight="bold" fontSize="xl">{title.toUpperCase()}</Text>
+            <Text fontWeight="bold" fontSize="xl">
+              {title.toUpperCase()}
+            </Text>
           </Box>
         </AlertDialogBody>
 
         <AlertDialogFooter justifyContent="space-around">
-          <Button
-            minW="8rem"
-            height="2.5rem"
-            fontWeight="800"
-            bg="black"
-            color="white"
-            _hover={{ bg: "black" }}
-            _active={{ bg: "black" }}
-            variant="solid"
-            borderRadius="50px"
-            onClick={() => {
+          <AlertButton
+            title="Ok"
+            handleClick={() => {
               removeLink();
+              toast({
+                title: "Account created.",
+                description: "We've created your account for you.",
+                status: "success",
+                duration: 1500,
+                position: "top",
+                render: () => <Toast title={title} />,
+              });
               closeAlert();
             }}
-            ml={3}
-          >
-            OK
-          </Button>
-          <Button
-            minW="8rem"
-            height="2.5rem"
-            fontWeight="800"
-            bg="black"
-            color="white"
-            _hover={{ bg: "black" }}
-            _active={{ bg: "black" }}
-            variant="solid"
-            borderRadius="50px"
+          />
+          <AlertButton
+            title="Cancel"
             ref={cancelRef}
-            onClick={() => closeAlert()}
-          >
-            Cancel
-          </Button>
+            handleClick={closeAlert}
+          />
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

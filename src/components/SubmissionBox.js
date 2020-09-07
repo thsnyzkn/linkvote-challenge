@@ -8,13 +8,13 @@ const SubmissionBox = () => (
     spacing={10}
     align="center"
     justifyContent="space-between"
-    bg="primary.50"
+    bg="secondary"
     py={3}
     pl="3%"
     pr="5%"
     border="1px"
     borderRadius="md"
-    borderColor="primary.300"
+    borderColor="gray.300"
   >
     <RouterLink to={`/add-link`} mr="5">
       {" "}
@@ -25,8 +25,8 @@ const SubmissionBox = () => (
         minW="5rem"
         border="1px"
         fontSize="32px"
-        bg="primary.50"
-        borderColor="primary.100"
+        bg="primary"
+        borderColor="gray.300"
       />
     </RouterLink>
 

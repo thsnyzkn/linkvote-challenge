@@ -5,6 +5,7 @@ import App from "./App";
 import store from "./app/store";
 import { saveState } from "./app/localStorage";
 import * as serviceWorker from "./serviceWorker";
+import "./index.css";
 
 store.subscribe(() => {
   saveState(store.getState());

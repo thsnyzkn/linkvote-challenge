@@ -30,7 +30,7 @@ const LinkList = ({
           pr={2}
           mt={3}
           _hover={{
-            bg: "primary.50",
+            bg: "secondary",
             cursor: "pointer",
             borderRadius: "md",
           }}

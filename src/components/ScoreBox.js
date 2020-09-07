@@ -1,13 +1,15 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Box, Heading, Text } from "@chakra-ui/core";
 
 const ScoreBox = ({ points }) => (
   <Box
-    bg="primary.100"
+    bg="primary"
     p={4}
     mb={3}
+    ml={3}
     border="1px"
-    borderColor="primary.200"
+    borderColor="gray.300"
     borderRadius="md"
   >
     <Heading
@@ -21,5 +23,6 @@ const ScoreBox = ({ points }) => (
     <Text>POINTS</Text>
   </Box>
 );
-
+ScoreBox.propTypes = { points: PropTypes.number };
+ScoreBox.defaultProps = { points: 0 };
 export default ScoreBox;
