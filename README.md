@@ -2,14 +2,14 @@
 
 - yarn install
 
-  2.To start the project
+2.To start the project
 
-3. yarn start
+- yarn start
 
-- To run the tests:
+3. To run the tests:
 
-* yarn test
+- yarn test
 
-  4.Demo Link:
+4.Demo Link:
 
-[https://agitated-hermann-5b588b.netlify.app/]
+- [https://agitated-hermann-5b588b.netlify.app/]
